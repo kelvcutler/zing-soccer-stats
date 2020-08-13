@@ -1,0 +1,35 @@
+{
+  "name": "zing-soccer-stats",
+  "version": "1.0.0",
+  "description": "Sample application written in Zing framework",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kelvcutler/zing-soccer-stats.git"
+  },
+  "author": "Kelv Cutler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kelvcutler/zing-soccer-stats/issues"
+  },
+  "homepage": "https://github.com/kelvcutler/zing-soccer-stats#readme",
+  "devDependencies": {
+    "@types/node": "^11.15.20",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "gulp-uglify": "^3.0.2",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.4",
+    "formidable": "^1.2.1",
+    "mongodb": "^3.2.3"
+  }
+}

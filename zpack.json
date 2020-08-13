@@ -1,0 +1,161 @@
+{
+  "rootClass": "DataObj",
+  "rootClassFolder": "",
+  "generations": [
+    {
+      "prefix": "Z",
+      "relOutFolder": "models"
+    }
+  ],
+  "classes": {
+    "Team": {
+      "typeCode": "T",
+      "keyed": true,
+      "fields": {
+        "TeamName": {
+          "type_": "string"
+        },
+        "SeasonLabel": {
+          "type_": "string"
+        },
+        "Coach": {
+          "type_": "Person"
+        },
+        "AssistantCoach": {
+          "type_": "Person"
+        },
+        "TeamManager": {
+          "type_": "Person"
+        }
+      },
+      "find": {
+        "byName": {
+          "searchFields": [
+            "TeamName"
+          ]
+        }
+      }
+    },
+    "Person": {
+      "typeCode": "P",
+      "keyed": true,
+      "fields": {
+        "FirstName": {
+          "type_": "string"
+        },
+        "LastName": {
+          "type_": "string"
+        },
+        "Email": {
+          "type_": "string"
+        },
+        "Phone": {
+          "type_": "string"
+        }
+      },
+      "find": {
+        "byName": {
+          "searchFields": [
+            "FirstName",
+            "LastName"
+          ]
+        }
+      }
+    },
+    "Player": {
+      "typeCode": "PL",
+      "keyed": true,
+      "fields": {
+        "Person": {
+          "type_": "Person"
+        },
+        "JerseyNumber": {
+          "type_": "number"
+        },
+        "Position": {
+          "type_": "string"
+        },
+        "SecondaryPosition": {
+          "type_": "string"
+        }
+      },
+      "find": {
+        "byPerson": {
+          "searchFields": [
+            "Person"
+          ]
+        },
+        "byNumber": {
+          "searchFields": [
+            "JerseyNumber"
+          ]
+        }
+      }
+    },
+    "Game": {
+      "typeCode": "G",
+      "keyed": true,
+      "fields": {
+        "Team": {
+          "type_": "Team"
+        },
+        "HomeGame": {
+          "type_": "boolean"
+        },
+        "Date": {
+          "type_": "string"
+        },
+        "StartTime": {
+          "type_": "number"
+        },
+        "EndTime": {
+          "type_": "number"
+        },
+        "WinResult": {
+          "type_": "string"
+        },
+        "GameEvents": {
+          "type_": "GameEvent[]"
+        }
+      },
+      "find": {
+        "byDate": {
+          "searchFields": [
+            "Date"
+          ]
+        },
+        "byHome": {
+          "searchFields": [
+            "HomeGame"
+          ]
+        },
+        "byWinResult": {
+          "searchFields": [
+            "WinResult"
+          ]
+        }
+      }
+    },
+    "GameEvent": {
+      "typeCode": "GE",
+      "keyed": false,
+      "fields": {
+        "EventType": {
+          "type_": "string"
+        },
+        "Time": {
+          "type_": "number"
+        },
+        "Player": {
+          "type_": "Player"
+        },
+        "HomeScoreIncreased": {
+          "type_": "boolean"
+        },
+        "AwayScoreIncreased": {
+          "type_": "boolean"
+        }
+      }
+    }
+  }
+}
