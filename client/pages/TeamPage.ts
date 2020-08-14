@@ -16,5 +16,8 @@ class TeamPage extends Page {
 
 }
 PageManager.registerPageFactory("team", (state: PageState) => {
+  if (!state.teamKey) {
+    PageManager.PUSHTO("home", { Message: "Team Id required to create or edit a team." });
+  }
   return new TeamPage(state);
 })

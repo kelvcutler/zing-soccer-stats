@@ -23,10 +23,11 @@ class SoccerStatsEnv extends ZingEnv {
   pageHTML(root: string, pageName: string): string {
     return this.indexHTML();
   }
-  localMongoDB(): string { return "LocalSoccerStats" }
-  releasePort(): number { return parseInt(process.env.SERVER_PORT || "4000"); }
-  releaseMongoDB(): string { return process.env.MONGO_DB_NAME; }
-  releaseMongoCredentials(): string { return process.env.MONGO_DB_CREDS; }
-  releaseMongoHost(): string { return process.env.MONGO_DB_HOST; }
-  releaseMongoPort(): number { return parseInt(process.env.MONGO_DB_PORT || "27017"); }
+  serverPort() {
+    return parseInt(process.env.SERVER_PORT || "4000");
+  }
+  mongoDB(): string { return process.env.MONGO_DB_NAME; }
+  mongoCredentials(): string { return process.env.MONGO_DB_CREDS; }
+  mongoHost(): string { return process.env.MONGO_DB_HOST; }
+  mongoPort(): number { return parseInt(process.env.MONGO_DB_PORT || "27017"); }
 }

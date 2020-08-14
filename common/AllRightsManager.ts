@@ -34,4 +34,8 @@ class NoUserManager extends UserManager {
     done(null, null);
   }
 
+  getUserKey(serverContext?: ServerContext): string {
+    return "anonymous";
+  }
+
 }
