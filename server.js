@@ -1411,7 +1411,7 @@ let mongo = require("mongodb");
 const Binary = require('mongodb').Binary;
 const fs = require('fs');
 class MongoDataSource extends DataSource {
-    constructor(dbHost, port, dbName, dropCollections) {
+    constructor(dbHost, port, dbName, dropCollections, skipCreateCollections) {
         super();
         this.dbName = dbName;
         this.port = port;
@@ -1427,7 +1427,8 @@ class MongoDataSource extends DataSource {
             this.db = db;
             if (dropCollections)
                 this.dropCollections();
-            this.createCollections();
+            if (!skipCreateCollections)
+                this.createCollections();
         });
     }
     dropCollections() {
@@ -2386,6 +2387,9 @@ class Team extends ZTeam {
             done(err, team);
         });
     }
+    static allTeams() {
+        return super.cFIND("T", Query.dict({}), false, false);
+    }
 }
 class ZPlayer extends DataObj {
     constructor(json) {
@@ -2888,7 +2892,7 @@ class SoccerStatsEnv extends ZingEnv {
                   integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
                   crossorigin="anonymous">
               </script>
-              <link rel="stylesheet" type="text/css" href="/clientMain.css"/>
+              <link rel="stylesheet" type="text/css" href="/main.css"/>
           </head>
           <body>
               <div id="content"></div>
@@ -2942,7 +2946,7 @@ class NoUserManager extends UserManager {
 }
 require("dotenv").config();
 let env = new SoccerStatsEnv();
-let dataSource = new MongoDataSource(env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(), env.mongoPort(), env.mongoDB());
+let dataSource = new MongoDataSource(env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(), env.mongoPort(), env.mongoDB(), false, true);
 let rightsManager = new AllRightsManager(dataSource);
 dataSource.setRightsManager(rightsManager);
 let app = new ZingExpress(dataSource, env);

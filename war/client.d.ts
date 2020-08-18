@@ -369,6 +369,7 @@ declare class ZTeam extends DataObj {
 }
 declare class Team extends ZTeam {
     static makeNew(name: string, done: (err: string, team: Team) => void): void;
+    static allTeams(): string[];
 }
 declare class ZPlayer extends DataObj {
     protected Person_: string;
@@ -574,6 +575,8 @@ declare class PageManager implements DataMonitor {
     getUser(done: (user: DataObj) => void): void;
     getUserKey(): string;
     notify(): void;
+    static BACK(): void;
+    back(): void;
     static registerPageFactory(pageName: string, factory: (state: PageState) => Page): void;
     private doPopState;
     private pageFromURLPath;
@@ -1323,6 +1326,7 @@ declare class TextEditUI extends ZUI {
 declare class HomePage extends Page {
     creatingTeam: any;
     constructor(pageState: PageState);
+    private teamList;
     pageName(): string;
 }
 declare class TeamPage extends Page {

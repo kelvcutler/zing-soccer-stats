@@ -9,7 +9,9 @@ let env = new SoccerStatsEnv();
 let dataSource = new MongoDataSource(
   env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(),
   env.mongoPort(),
-  env.mongoDB()
+  env.mongoDB(),
+  false,
+  true
 );
 let rightsManager = new AllRightsManager(dataSource);
 dataSource.setRightsManager(rightsManager);

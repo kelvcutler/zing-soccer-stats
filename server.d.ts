@@ -233,7 +233,7 @@ declare class MongoDataSource extends DataSource {
     private dbName;
     private port;
     private collectionNames;
-    constructor(dbHost: string, port: number, dbName: string, dropCollections?: boolean);
+    constructor(dbHost: string, port: number, dbName: string, dropCollections?: boolean, skipCreateCollections?: boolean);
     private dropCollections;
     private createCollections;
     GET(key: string, done: (err: string, data: DataObj) => void, forceRequest: boolean, serverContext: ServerContext): void;
@@ -355,6 +355,7 @@ declare class ZTeam extends DataObj {
 }
 declare class Team extends ZTeam {
     static makeNew(name: string, done: (err: string, team: Team) => void): void;
+    static allTeams(): string[];
 }
 declare class ZPlayer extends DataObj {
     protected Person_: string;

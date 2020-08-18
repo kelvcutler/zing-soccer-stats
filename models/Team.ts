@@ -9,4 +9,9 @@ class Team extends ZTeam {
       done(err, team);
     })
   }
+
+
+  static allTeams(): string[] {
+    return super.cFIND("T", Query.dict({}), false, false);
+  }
 }

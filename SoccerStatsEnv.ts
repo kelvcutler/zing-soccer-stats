@@ -10,7 +10,7 @@ class SoccerStatsEnv extends ZingEnv {
                   integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
                   crossorigin="anonymous">
               </script>
-              <link rel="stylesheet" type="text/css" href="/clientMain.css"/>
+              <link rel="stylesheet" type="text/css" href="/main.css"/>
           </head>
           <body>
               <div id="content"></div>

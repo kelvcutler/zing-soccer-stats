@@ -2576,6 +2576,9 @@ class Team extends ZTeam {
             done(err, team);
         });
     }
+    static allTeams() {
+        return super.cFIND("T", Query.dict({}), false, false);
+    }
 }
 class ZPlayer extends DataObj {
     constructor(json) {
@@ -3453,6 +3456,13 @@ class PageManager {
         else {
             pageContent.html("******************** No Cur Page ***********************");
         }
+    }
+    static BACK() {
+        PageManager.curManager.back();
+    }
+    back() {
+        history.back();
+        PageManager.curManager.notify();
     }
     static registerPageFactory(pageName, factory) {
         PageManager.pageMap[pageName] = factory;
@@ -7479,11 +7489,27 @@ class HomePage extends Page {
                     this.notify();
                 });
             })
-                .enable(() => !this.creatingTeam)
+                .enable(() => !this.creatingTeam),
+            new DivUI(() => { return this.teamList(); }),
         ]);
     }
+    teamList() {
+        let tKeys = Team.allTeams();
+        if (tKeys) {
+            let teams = Team.cGETm(tKeys);
+            if (teams) {
+                return teams.map((team) => (new ClickWrapperUI([
+                    new TextUI(team.getTeamName())
+                ]).click(() => {
+                    DB.msg(`edit ${team.getTeamName()}`);
+                    PageManager.PUSHTO("team", { teamKey: team._key });
+                }).style("team-list-item")));
+            }
+        }
+        return [];
+    }
     pageName() {
-        return "Home";
+        return "home";
     }
 }
 PageManager.registerPageFactory("home", (state) => {
@@ -7492,12 +7518,21 @@ PageManager.registerPageFactory("home", (state) => {
 class TeamPage extends Page {
     constructor(pageState) {
         super(pageState);
+        const team = Team.cGET(pageState.teamKey);
         this.content = new DivUI([
+            new ClickWrapperUI([new TextUI("< Back")])
+                .click(() => {
+                PageManager.BACK();
+            }),
             new TextUI("Manage Team"),
+            new TextFieldUI()
+                .getF(() => { return team.getTeamName(); })
+                .setF((newName) => { team.setTeamName(newName); })
+                .placeHolder("Name of the team"),
         ]);
     }
     pageName() {
-        return "Home";
+        return "team";
     }
 }
 PageManager.registerPageFactory("team", (state) => {

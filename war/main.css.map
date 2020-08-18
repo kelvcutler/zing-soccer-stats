@@ -1,1 +1,1 @@
-{"version":3,"names":[],"mappings":"","sources":["main.scss"],"sourcesContent":[""],"file":"main.css"}
+{"version":3,"file":"main.css","sources":["main.scss"],"sourcesContent":[".team-list-item {\n  cursor: pointer;\n  padding: 10px;\n  border-radius: 10px;\n}\n.team-list-item:hover {\n  background-color: #EEE;\n  transition: background-color 0.7s;\n}"],"names":[],"mappings":"AAAA,AAAA,eAAe,CAAC;EACd,MAAM,EAAE,OAAO;EACf,OAAO,EAAE,IAAI;EACb,aAAa,EAAE,IAAI,GACpB;;AACD,AAAA,eAAe,AAAA,MAAM,CAAC;EACpB,gBAAgB,EAAE,IAAI;EACtB,UAAU,EAAE,qBAAqB,GAClC"}

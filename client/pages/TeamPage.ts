@@ -5,13 +5,22 @@ class TeamPage extends Page {
 
   constructor(pageState: PageState) {
     super(pageState);
+    const team = Team.cGET(pageState.teamKey);
     this.content = new DivUI([
+      new ClickWrapperUI([new TextUI("< Back")])
+        .click(() => {
+          PageManager.BACK();
+        }),
       new TextUI("Manage Team"),
+      new TextFieldUI()
+        .getF(() => { return team.getTeamName() })
+        .setF((newName) => { team.setTeamName(newName) })
+        .placeHolder("Name of the team"),
     ]);
   }
 
   pageName(): string {
-    return "Home";
+    return "team";
   }
 
 }
