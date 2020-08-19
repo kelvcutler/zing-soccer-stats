@@ -327,6 +327,9 @@ declare class ZPerson extends DataObj {
     static byNameC(FirstName: StringQuery, LastName: StringQuery, keysOnly?: boolean, forceRequest?: boolean): string[];
 }
 declare class Person extends ZPerson {
+    getFullName(): string;
+    getDescription(includeEmail?: boolean): string;
+    static allPersons(): string[];
 }
 declare class ZTeam extends DataObj {
     protected TeamName_: string;

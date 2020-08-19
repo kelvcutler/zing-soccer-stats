@@ -2433,6 +2433,20 @@ class ZPerson extends DataObj {
     }
 }
 class Person extends ZPerson {
+    getFullName() {
+        if (this.getFirstName() && this.getLastName()) {
+            return `${this.getFirstName()} ${this.getLastName}`;
+        }
+    }
+    getDescription(includeEmail = false) {
+        if (includeEmail && this.getEmail()) {
+            return `${this.getFullName()} (${this.getEmail})`;
+        }
+        return this.getFullName();
+    }
+    static allPersons() {
+        return super.cFIND("P", Query.dict({}), false, false);
+    }
 }
 class ZTeam extends DataObj {
     constructor(json) {
@@ -3510,6 +3524,9 @@ class PageManager {
         this.notify();
     }
     stateFromQuery(query) {
+        if (query.startsWith('?')) {
+            query = query.substr(1, query.length - 1);
+        }
         let rslt = {};
         let decQuery = decodeURI(query);
         let qParts = decQuery.split("&");
@@ -7515,21 +7532,141 @@ class HomePage extends Page {
 PageManager.registerPageFactory("home", (state) => {
     return new HomePage(state);
 });
+const defaultPersonCardOptions = {
+    size: 'full',
+    inEditMode: () => false,
+    onToggleEditMode: null,
+    onRemove: null,
+};
+class PersonCard extends ZUI {
+    constructor(personKey, options = {}) {
+        super();
+        const opts = Object.assign(Object.assign({}, defaultPersonCardOptions), options);
+        const person = Person.cGET(personKey);
+        if (!person) {
+            this.content = new DivUI(() => ([
+                new TextUI('Loading...').style('LoadingText')
+            ])).style('ShadowedCard');
+            return;
+        }
+        if (opts.size === 'full') {
+            this.content = new DivUI(() => ([
+                new TextUI('First Name:').style('Label'),
+                opts.inEditMode()
+                    ? new TextFieldUI().getF(() => person.getFirstName()).setF((newName => { person.setFirstName(newName); })).placeHolder('Bob')
+                    : new TextUI(person.getFirstName()).style('Value'),
+                new TextUI('Last Name:').style('Label'),
+                opts.inEditMode()
+                    ? new TextFieldUI().getF(() => person.getLastName()).setF((newName => { person.setLastName(newName); })).placeHolder('Smith')
+                    : new TextUI(person.getLastName()).style('Value'),
+                new TextUI('Email:').style('Label'),
+                opts.inEditMode()
+                    ? new TextFieldUI().getF(() => person.getEmail()).setF((newEmail => { person.setEmail(newEmail); })).placeHolder('name@example.com')
+                    : new TextUI(person.getEmail()).style('Value'),
+                new TextUI('Phone:').style('Label'),
+                opts.inEditMode()
+                    ? new TextFieldUI().getF(() => person.getPhone()).setF((newPhone => { person.setPhone(newPhone); })).placeHolder('888-333-4444')
+                    : new TextUI(person.getPhone()).style('Value'),
+                opts.onToggleEditMode && new ClickWrapperUI([
+                    new TextUI('✎')
+                ]).click(() => { opts.onToggleEditMode(!opts.inEditMode()); }).style('LinkText'),
+                opts.onRemove && new ClickWrapperUI([
+                    new TextUI('✕')
+                ]).click(() => { opts.onRemove(); }).style('LinkText')
+            ])).style('ShadowedCard');
+        }
+        else {
+            this.content = new DivUI(() => ([
+                new TextUI('No one').style('EmptyText')
+            ])).style('ShadowedCard');
+        }
+    }
+}
+const defaultPersonSelectorOptions = {
+    getSelected: () => (''),
+    onSelect: () => { },
+    nullable: true,
+    allowAddNew: true,
+    addNewLabel: 'Add New Person'
+};
+class PersonSelector extends ZUI {
+    constructor(options = defaultPersonSelectorOptions) {
+        super();
+        const opts = Object.assign(Object.assign({}, defaultPersonSelectorOptions), options);
+        const personKeys = Person.allPersons();
+        const personList = Person.cGETm(personKeys);
+        const dropdown = new DropDownChoiceUI()
+            .getF(opts.getSelected)
+            .setF(this.handleSelect(opts));
+        const duplicateNames = {};
+        personList.forEach((person) => {
+            if (person.getFullName() in duplicateNames) {
+                duplicateNames[person.getFullName()] = true;
+            }
+            else {
+                duplicateNames[person.getFullName()] = false;
+            }
+        });
+        if (opts.nullable) {
+            dropdown.choice('', '-- Select a Person --');
+        }
+        personList.forEach((person) => dropdown.choice(person._key, person.getDescription(duplicateNames[person.getFullName()])));
+        if (opts.allowAddNew) {
+            dropdown.choice('add-new-person', opts.addNewLabel);
+        }
+        this.content = dropdown;
+    }
+    handleSelect(opts) {
+        return (personKey) => {
+            if (personKey === 'add-new-person') {
+                const newPerson = new Person({});
+                newPerson.PUT((err, person) => {
+                    opts.onSelect(person._key);
+                });
+                return;
+            }
+            opts.onSelect(personKey);
+        };
+    }
+}
 class TeamPage extends Page {
     constructor(pageState) {
         super(pageState);
-        const team = Team.cGET(pageState.teamKey);
+        this.inEditMode = false;
+        this.teamKey = pageState.teamKey;
+        const team = Team.cGET(this.teamKey);
+        if (!team) {
+            this.content = new DivUI([]);
+            return;
+        }
         this.content = new DivUI([
             new ClickWrapperUI([new TextUI("< Back")])
                 .click(() => {
-                PageManager.BACK();
+                history.back();
             }),
             new TextUI("Manage Team"),
             new TextFieldUI()
                 .getF(() => { return team.getTeamName(); })
                 .setF((newName) => { team.setTeamName(newName); })
                 .placeHolder("Name of the team"),
+            team.getCoach()
+                ? new PersonCard(team.getCoach(), {
+                    onToggleEditMode: (mode) => { this.inEditMode = mode; this.notify(); },
+                    inEditMode: () => this.inEditMode,
+                    onRemove: () => { team.setCoach(null); }
+                })
+                : new PersonSelector({
+                    getSelected: () => (team.getCoach()),
+                    onSelect: (personKey) => { this.setCoach(personKey); },
+                    allowAddNew: true
+                })
         ]);
+    }
+    setCoach(personKey) {
+        const team = Team.cGET(this.teamKey);
+        if (team) {
+            team.setCoach(personKey);
+        }
     }
     pageName() {
         return "team";

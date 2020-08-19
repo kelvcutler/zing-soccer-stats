@@ -341,6 +341,9 @@ declare class ZPerson extends DataObj {
     static byNameC(FirstName: StringQuery, LastName: StringQuery, keysOnly?: boolean, forceRequest?: boolean): string[];
 }
 declare class Person extends ZPerson {
+    getFullName(): string;
+    getDescription(includeEmail?: boolean): string;
+    static allPersons(): string[];
 }
 declare class ZTeam extends DataObj {
     protected TeamName_: string;
@@ -1329,8 +1332,33 @@ declare class HomePage extends Page {
     private teamList;
     pageName(): string;
 }
+declare type PersonCardOptions = {
+    size?: string;
+    inEditMode?: () => boolean;
+    onToggleEditMode?: (editMode: boolean) => void;
+    onRemove?: () => void;
+};
+declare const defaultPersonCardOptions: PersonCardOptions;
+declare class PersonCard extends ZUI {
+    constructor(personKey: string, options?: PersonCardOptions);
+}
+declare type PersonSelectorOptions = {
+    getSelected: () => string;
+    onSelect: (personKey: string) => void;
+    nullable?: boolean;
+    allowAddNew?: boolean;
+    addNewLabel?: string;
+};
+declare const defaultPersonSelectorOptions: PersonSelectorOptions;
+declare class PersonSelector extends ZUI {
+    constructor(options?: PersonSelectorOptions);
+    handleSelect(opts: PersonSelectorOptions): (personKey: string) => void;
+}
 declare class TeamPage extends Page {
+    inEditMode: boolean;
+    teamKey: string;
     constructor(pageState: PageState);
+    private setCoach;
     pageName(): string;
 }
 declare let httpSource: HTTPDataSource;

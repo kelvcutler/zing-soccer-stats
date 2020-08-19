@@ -2244,6 +2244,20 @@ class ZPerson extends DataObj {
     }
 }
 class Person extends ZPerson {
+    getFullName() {
+        if (this.getFirstName() && this.getLastName()) {
+            return `${this.getFirstName()} ${this.getLastName}`;
+        }
+    }
+    getDescription(includeEmail = false) {
+        if (includeEmail && this.getEmail()) {
+            return `${this.getFullName()} (${this.getEmail})`;
+        }
+        return this.getFullName();
+    }
+    static allPersons() {
+        return super.cFIND("P", Query.dict({}), false, false);
+    }
 }
 class ZTeam extends DataObj {
     constructor(json) {
