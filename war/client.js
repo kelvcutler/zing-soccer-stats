@@ -2435,12 +2435,13 @@ class ZPerson extends DataObj {
 class Person extends ZPerson {
     getFullName() {
         if (this.getFirstName() && this.getLastName()) {
-            return `${this.getFirstName()} ${this.getLastName}`;
+            return `${this.getFirstName()} ${this.getLastName()}`;
         }
+        return '';
     }
     getDescription(includeEmail = false) {
         if (includeEmail && this.getEmail()) {
-            return `${this.getFullName()} (${this.getEmail})`;
+            return `${this.getFullName()} (${this.getEmail()})`;
         }
         return this.getFullName();
     }
@@ -3471,13 +3472,6 @@ class PageManager {
             pageContent.html("******************** No Cur Page ***********************");
         }
     }
-    static BACK() {
-        PageManager.curManager.back();
-    }
-    back() {
-        history.back();
-        PageManager.curManager.notify();
-    }
     static registerPageFactory(pageName, factory) {
         PageManager.pageMap[pageName] = factory;
     }
@@ -3497,7 +3491,7 @@ class PageManager {
         let query = window.location.search;
         let newState = this.stateFromQuery(query);
         let parts = windowPath.split("/pg/");
-        let pageName = parts[1] || "";
+        let pageName = parts[1];
         this.root = parts[0];
         if (this.root.length <= 1)
             this.root = "/client";
@@ -3520,7 +3514,6 @@ class PageManager {
                 }
             }
         }
-        this.curPage.pageManager = this;
         this.notify();
     }
     stateFromQuery(query) {
@@ -7486,44 +7479,114 @@ class TextEditUI extends ZUI {
         this.handleMajorEventChange();
     }
 }
+class TeamsAdmin extends ZUI {
+    constructor() {
+        super();
+        this.content = new DivUI(() => {
+            return [
+                new ButtonUI("Create Team")
+                    .click(() => {
+                    this.creatingTeam = true;
+                    Team.makeNew("New Team", (err, team) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                        else {
+                            PageManager.PUSHTO("team", { teamKey: team._key });
+                        }
+                        this.creatingTeam = false;
+                    });
+                })
+                    .enable(() => !this.creatingTeam),
+                new DivUI(() => { return this.teamList(); }),
+            ];
+        });
+    }
+    teamList() {
+        return [new KeyListUI(() => Team.allTeams())
+                .itemView((teamKey) => {
+                const team = Team.cGET(teamKey);
+                if (!team) {
+                    return new TextUI('');
+                }
+                return new ClickWrapperUI([
+                    new TextUI(team.getTeamName())
+                ]).click(() => {
+                    DB.msg(`edit ${team.getTeamName()}`);
+                    PageManager.PUSHTO("team", { teamKey: team._key });
+                }).style("TeamListItem");
+            })
+                .sort((key1, key2) => {
+                const t1 = Team.cGET(key1);
+                const t2 = Team.cGET(key2);
+                if (!t1)
+                    return 1;
+                if (!t2)
+                    return -1;
+                return t1.getTeamName().localeCompare(t2.getTeamName());
+            })];
+    }
+}
+class PersonsAdmin extends ZUI {
+    constructor() {
+        super();
+        this.content = new DivUI(() => {
+            return [
+                new ButtonUI("Create Person")
+                    .click(() => {
+                    const newPerson = new Person({});
+                    newPerson.PUT((err, person) => {
+                        this.editingPersonKey = person._key;
+                        ZUI.notify();
+                    });
+                }),
+                new DivUI(() => { return this.personList(); }),
+            ];
+        });
+    }
+    personList() {
+        return [new KeyListUI(() => (Person.allPersons()))
+                .itemView((personKey) => (new PersonCard(personKey, {
+                inEditMode: () => (this.editingPersonKey === personKey),
+                onToggleEditMode: (editMode) => {
+                    if (editMode) {
+                        this.editingPersonKey = personKey;
+                    }
+                    else {
+                        this.editingPersonKey = null;
+                    }
+                    ZUI.notify();
+                },
+                onRemove: () => {
+                    Person.GET(personKey, (err, person) => {
+                        if (!err) {
+                            person.DELETE((err) => {
+                                ZUI.notify();
+                            });
+                        }
+                    });
+                }
+            })))
+                .sort((key1, key2) => {
+                const p1 = Person.cGET(key1);
+                const p2 = Person.cGET(key2);
+                if (!p1)
+                    return 1;
+                if (!p2)
+                    return -1;
+                return p1.getDescription().localeCompare(p2.getDescription());
+            })];
+    }
+}
 class HomePage extends Page {
     constructor(pageState) {
         super(pageState);
         this.content = new DivUI([
             new TextUI("Home Page"),
-            new ButtonUI("Create Team")
-                .click(() => {
-                this.creatingTeam = true;
-                this.notify();
-                Team.makeNew("New Team", (err, team) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                    else {
-                        PageManager.PUSHTO("team", { teamKey: team._key });
-                    }
-                    this.creatingTeam = false;
-                    this.notify();
-                });
-            })
-                .enable(() => !this.creatingTeam),
-            new DivUI(() => { return this.teamList(); }),
+            new TabUI()
+                .tab('Teams', new TeamsAdmin())
+                .tab('People', new PersonsAdmin())
         ]);
-    }
-    teamList() {
-        let tKeys = Team.allTeams();
-        if (tKeys) {
-            let teams = Team.cGETm(tKeys);
-            if (teams) {
-                return teams.map((team) => (new ClickWrapperUI([
-                    new TextUI(team.getTeamName())
-                ]).click(() => {
-                    DB.msg(`edit ${team.getTeamName()}`);
-                    PageManager.PUSHTO("team", { teamKey: team._key });
-                }).style("team-list-item")));
-            }
-        }
-        return [];
     }
     pageName() {
         return "home";
@@ -7542,38 +7605,60 @@ class PersonCard extends ZUI {
     constructor(personKey, options = {}) {
         super();
         const opts = Object.assign(Object.assign({}, defaultPersonCardOptions), options);
-        const person = Person.cGET(personKey);
-        if (!person) {
-            this.content = new DivUI(() => ([
-                new TextUI('Loading...').style('LoadingText')
-            ])).style('ShadowedCard');
-            return;
-        }
+        Person.GET(personKey, (err, person) => {
+            this.err = err;
+            this.person = person;
+        });
         if (opts.size === 'full') {
-            this.content = new DivUI(() => ([
-                new TextUI('First Name:').style('Label'),
-                opts.inEditMode()
-                    ? new TextFieldUI().getF(() => person.getFirstName()).setF((newName => { person.setFirstName(newName); })).placeHolder('Bob')
-                    : new TextUI(person.getFirstName()).style('Value'),
-                new TextUI('Last Name:').style('Label'),
-                opts.inEditMode()
-                    ? new TextFieldUI().getF(() => person.getLastName()).setF((newName => { person.setLastName(newName); })).placeHolder('Smith')
-                    : new TextUI(person.getLastName()).style('Value'),
-                new TextUI('Email:').style('Label'),
-                opts.inEditMode()
-                    ? new TextFieldUI().getF(() => person.getEmail()).setF((newEmail => { person.setEmail(newEmail); })).placeHolder('name@example.com')
-                    : new TextUI(person.getEmail()).style('Value'),
-                new TextUI('Phone:').style('Label'),
-                opts.inEditMode()
-                    ? new TextFieldUI().getF(() => person.getPhone()).setF((newPhone => { person.setPhone(newPhone); })).placeHolder('888-333-4444')
-                    : new TextUI(person.getPhone()).style('Value'),
-                opts.onToggleEditMode && new ClickWrapperUI([
-                    new TextUI('✎')
-                ]).click(() => { opts.onToggleEditMode(!opts.inEditMode()); }).style('LinkText'),
-                opts.onRemove && new ClickWrapperUI([
-                    new TextUI('✕')
-                ]).click(() => { opts.onRemove(); }).style('LinkText')
-            ])).style('ShadowedCard');
+            this.content = new DivUI(() => {
+                if (this.err) {
+                    return [new DivUI([
+                            new TextUI(`Error: ${this.err}`).style('LoadingText'),
+                            opts.onRemove && new ClickWrapperUI([
+                                new TextUI('✕')
+                            ]).click(() => { opts.onRemove(); }).style('LinkText')
+                        ]).style('ShadowedCard')];
+                }
+                if (!this.person) {
+                    return [new DivUI([
+                            new TextUI('Loading...').style('LoadingText')
+                        ]).style('ShadowedCard')];
+                }
+                return ([
+                    new DivUI([
+                        new TextUI('First Name:').style('Label'),
+                        opts.inEditMode()
+                            ? new TextFieldUI().getF(() => this.person.getFirstName()).setF((newName => { this.person.setFirstName(newName); })).placeHolder('Bob').style('Value')
+                            : new TextUI(this.person.getFirstName()).style('Value'),
+                        new TextUI('Email:').style('Label'),
+                        opts.inEditMode()
+                            ? new TextFieldUI().getF(() => this.person.getEmail()).setF((newEmail => { this.person.setEmail(newEmail); })).placeHolder('name@example.com').style('Value')
+                            : new TextUI(this.person.getEmail()).style('Value'),
+                    ]).style('Row'),
+                    new DivUI([
+                        new TextUI('Last Name:').style('Label'),
+                        opts.inEditMode()
+                            ? new TextFieldUI().getF(() => this.person.getLastName()).setF((newName => { this.person.setLastName(newName); })).placeHolder('Smith').style('Value')
+                            : new TextUI(this.person.getLastName()).style('Value'),
+                        new TextUI('Phone:').style('Label'),
+                        opts.inEditMode()
+                            ? new TextFieldUI().getF(() => this.person.getPhone()).setF((newPhone => { this.person.setPhone(newPhone); })).placeHolder('888-333-4444').style('Value')
+                            : new TextUI(this.person.getPhone()).style('Value'),
+                    ]).style('Row'),
+                    new DivUI([
+                        opts.onToggleEditMode
+                            ? new ClickWrapperUI([
+                                new TextUI('✎')
+                            ]).click(() => { opts.onToggleEditMode(!opts.inEditMode()); }).style('LinkText')
+                            : new DivUI([]),
+                        opts.onRemove
+                            ? new ClickWrapperUI([
+                                new TextUI('✕')
+                            ]).click(() => { opts.onRemove(); }).style('LinkText')
+                            : new DivUI([])
+                    ]).style('UpperRightActions')
+                ]);
+            }).style('ShadowedCard');
         }
         else {
             this.content = new DivUI(() => ([
@@ -7592,12 +7677,17 @@ const defaultPersonSelectorOptions = {
 class PersonSelector extends ZUI {
     constructor(options = defaultPersonSelectorOptions) {
         super();
-        const opts = Object.assign(Object.assign({}, defaultPersonSelectorOptions), options);
+        this.options = Object.assign(Object.assign({}, defaultPersonSelectorOptions), options);
+        this.content = new DivUI(() => {
+            return [this.makeDropDown()];
+        });
+    }
+    makeDropDown() {
         const personKeys = Person.allPersons();
         const personList = Person.cGETm(personKeys);
         const dropdown = new DropDownChoiceUI()
-            .getF(opts.getSelected)
-            .setF(this.handleSelect(opts));
+            .getF(this.options.getSelected)
+            .setF(this.handleSelect(this.options));
         const duplicateNames = {};
         personList.forEach((person) => {
             if (person.getFullName() in duplicateNames) {
@@ -7607,14 +7697,14 @@ class PersonSelector extends ZUI {
                 duplicateNames[person.getFullName()] = false;
             }
         });
-        if (opts.nullable) {
+        if (this.options.nullable) {
             dropdown.choice('', '-- Select a Person --');
         }
         personList.forEach((person) => dropdown.choice(person._key, person.getDescription(duplicateNames[person.getFullName()])));
-        if (opts.allowAddNew) {
-            dropdown.choice('add-new-person', opts.addNewLabel);
+        if (this.options.allowAddNew) {
+            dropdown.choice('add-new-person', this.options.addNewLabel);
         }
-        this.content = dropdown;
+        return dropdown;
     }
     handleSelect(opts) {
         return (personKey) => {
@@ -7634,39 +7724,52 @@ class TeamPage extends Page {
         super(pageState);
         this.inEditMode = false;
         this.teamKey = pageState.teamKey;
-        const team = Team.cGET(this.teamKey);
-        if (!team) {
+        Team.GET(this.teamKey, (err, team) => {
+            this.team = team;
+        });
+        if (!this.team) {
             this.content = new DivUI([]);
             return;
         }
-        this.content = new DivUI([
+        this.content = new DivUI(() => ([
             new ClickWrapperUI([new TextUI("< Back")])
                 .click(() => {
                 history.back();
             }),
             new TextUI("Manage Team"),
             new TextFieldUI()
-                .getF(() => { return team.getTeamName(); })
-                .setF((newName) => { team.setTeamName(newName); })
+                .getF(() => this.getTeamName())
+                .setF((newName) => { this.setTeamName(newName); })
                 .placeHolder("Name of the team"),
-            team.getCoach()
-                ? new PersonCard(team.getCoach(), {
+            this.team.getCoach()
+                ? new PersonCard(this.team.getCoach(), {
                     onToggleEditMode: (mode) => { this.inEditMode = mode; this.notify(); },
                     inEditMode: () => this.inEditMode,
-                    onRemove: () => { team.setCoach(null); }
+                    onRemove: () => { this.team.setCoach(null); }
                 })
                 : new PersonSelector({
-                    getSelected: () => (team.getCoach()),
+                    getSelected: () => (this.team.getCoach()),
                     onSelect: (personKey) => { this.setCoach(personKey); },
                     allowAddNew: true
                 })
-        ]);
+        ]));
     }
-    setCoach(personKey) {
+    getTeamName() {
         const team = Team.cGET(this.teamKey);
         if (team) {
-            team.setCoach(personKey);
+            return team.getTeamName();
         }
+        return '';
+    }
+    setTeamName(newName) {
+        Team.GET(this.teamKey, (err, team) => {
+            team.setTeamName(newName);
+        });
+    }
+    setCoach(personKey) {
+        Team.GET(this.teamKey, (err, team) => {
+            team.setCoach(personKey);
+        });
     }
     pageName() {
         return "team";
@@ -7683,6 +7786,6 @@ let source = new CacheDataSource(httpSource);
 DataObj.globalSource = source;
 let rm = new AllRightsManager(source);
 source.setRightsManager(rm);
-ZUI.pageManager = new PageManager(source, new HomePage({}), "#content");
+ZUI.pageManager = new PageManager(source, new HomePage(null), "#content");
 
 //# sourceMappingURL=client.js.map

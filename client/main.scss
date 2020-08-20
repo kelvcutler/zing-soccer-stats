@@ -1,9 +1,53 @@
-.team-list-item {
+$color-primary : rgb(80, 145, 231);
+$color-primary-text: white;
+$color-secondary : rgb(248, 236, 203);
+$color-secondary-text :  black;
+$color-disabled: rgb(201, 200, 200);
+$color-disabled-text: white;
+$color-text: black;
+$font-size-sm : 10px;
+$font-size-normal : 16px;
+$font-size-l2 : 25px;
+$font-family-normal: 'Montserrat', sans-serif;
+$font-family-special: 'Cinzel', serif;
+
+$grid-gutter-width: 3%;
+
+@import "../../aaswZing/Zing/zui/zuiMain.scss";
+
+.TeamListItem {
   cursor: pointer;
   padding: 10px;
   border-radius: 10px;
+  height: 18px;
+
+  &:hover {
+    background-color: #EEE;
+    transition: background-color 0.7s;
+  }
 }
-.team-list-item:hover {
-  background-color: #EEE;
-  transition: background-color 0.7s;
+.ShadowedCard {
+  border-radius: 8px;
+  box-shadow: 3px 3px 5px 2px #CCC;
+  margin-bottom: 10px;
+  padding: 8px;
+  height: 80px;
+  position: relative;
+  .Label {
+    @include layout(2);
+    font-weight: bold;
+    height: 35px;
+  }
+  .Value {
+    @include layout(2);
+    height: 35px;
+  }
+  .UpperRightActions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .Row {
+    clear: both;
+  }
 }

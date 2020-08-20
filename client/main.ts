@@ -10,4 +10,4 @@ DataObj.globalSource = source;
 let rm: RightsManager = new AllRightsManager(source);
 source.setRightsManager(rm);
 ZUI.pageManager = new PageManager(source,
-  new HomePage({}), "#content");
+  new HomePage(null), "#content");

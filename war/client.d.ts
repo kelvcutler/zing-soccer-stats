@@ -578,8 +578,6 @@ declare class PageManager implements DataMonitor {
     getUser(done: (user: DataObj) => void): void;
     getUserKey(): string;
     notify(): void;
-    static BACK(): void;
-    back(): void;
     static registerPageFactory(pageName: string, factory: (state: PageState) => Page): void;
     private doPopState;
     private pageFromURLPath;
@@ -1326,10 +1324,19 @@ declare class TextEditUI extends ZUI {
     private handleTab;
     private handleReturn;
 }
-declare class HomePage extends Page {
-    creatingTeam: any;
-    constructor(pageState: PageState);
+declare class TeamsAdmin extends ZUI {
+    teams: Team[];
+    creatingTeam: boolean;
+    constructor();
     private teamList;
+}
+declare class PersonsAdmin extends ZUI {
+    editingPersonKey: string | null;
+    constructor();
+    private personList;
+}
+declare class HomePage extends Page {
+    constructor(pageState: PageState);
     pageName(): string;
 }
 declare type PersonCardOptions = {
@@ -1340,6 +1347,8 @@ declare type PersonCardOptions = {
 };
 declare const defaultPersonCardOptions: PersonCardOptions;
 declare class PersonCard extends ZUI {
+    person: Person;
+    err: string;
     constructor(personKey: string, options?: PersonCardOptions);
 }
 declare type PersonSelectorOptions = {
@@ -1351,13 +1360,19 @@ declare type PersonSelectorOptions = {
 };
 declare const defaultPersonSelectorOptions: PersonSelectorOptions;
 declare class PersonSelector extends ZUI {
+    persons: Person[];
+    options: PersonSelectorOptions;
     constructor(options?: PersonSelectorOptions);
+    makeDropDown(): ZUI;
     handleSelect(opts: PersonSelectorOptions): (personKey: string) => void;
 }
 declare class TeamPage extends Page {
     inEditMode: boolean;
     teamKey: string;
+    team: Team;
     constructor(pageState: PageState);
+    private getTeamName;
+    private setTeamName;
     private setCoach;
     pageName(): string;
 }

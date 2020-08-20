@@ -8,44 +8,60 @@
 class TeamPage extends Page {
   inEditMode: boolean = false
   teamKey: string
+  team: Team
 
   constructor(pageState: PageState) {
     super(pageState);
     this.teamKey = pageState.teamKey;
-    const team = Team.cGET(this.teamKey);
-    if (!team) {
+    Team.GET(this.teamKey, (err: string, team: Team) => {
+      this.team = team;
+    });
+    if (!this.team) {
       this.content = new DivUI([]);
       return;
     }
-    this.content = new DivUI([
+    this.content = new DivUI(() => ([
       new ClickWrapperUI([new TextUI("< Back")])
         .click(() => {
           history.back();
         }),
       new TextUI("Manage Team"),
       new TextFieldUI()
-        .getF(() => { return team.getTeamName() })
-        .setF((newName) => { team.setTeamName(newName) })
+        .getF(() => this.getTeamName())
+        .setF((newName: string) => { this.setTeamName(newName); })
         .placeHolder("Name of the team"),
-      team.getCoach()
-        ? new PersonCard(team.getCoach(), {
+      this.team.getCoach()
+        ? new PersonCard(this.team.getCoach(), {
           onToggleEditMode: (mode: boolean) => { this.inEditMode = mode; this.notify() },
           inEditMode: () => this.inEditMode,
-          onRemove: () => { team.setCoach(null); }
+          onRemove: () => { this.team.setCoach(null); }
         })
         : new PersonSelector({
-          getSelected: () => (team.getCoach()),
+          getSelected: () => (this.team.getCoach()),
           onSelect: (personKey: string) => { this.setCoach(personKey); },
           allowAddNew: true
         })
-    ]);
+    ]));
+  }
+
+  private getTeamName(): string {
+    const team = Team.cGET(this.teamKey);
+    if (team) {
+      return team.getTeamName();
+    }
+    return '';
+  }
+
+  private setTeamName(newName: string): void {
+    Team.GET(this.teamKey, (err: string, team: Team) => {
+      team.setTeamName(newName);
+    });
   }
 
   private setCoach(personKey: string) {
-    const team = Team.cGET(this.teamKey);
-    if (team) {
+    Team.GET(this.teamKey, (err: string, team: Team) => {
       team.setCoach(personKey);
-    }
+    });
   }
 
   pageName(): string {

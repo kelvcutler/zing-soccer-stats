@@ -233,7 +233,7 @@ declare class MongoDataSource extends DataSource {
     private dbName;
     private port;
     private collectionNames;
-    constructor(dbHost: string, port: number, dbName: string, dropCollections?: boolean, skipCreateCollections?: boolean);
+    constructor(dbHost: string, port: number, dbName: string, dropCollections?: boolean);
     private dropCollections;
     private createCollections;
     GET(key: string, done: (err: string, data: DataObj) => void, forceRequest: boolean, serverContext: ServerContext): void;

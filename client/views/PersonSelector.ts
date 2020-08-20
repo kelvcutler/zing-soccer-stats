@@ -19,15 +19,23 @@ const defaultPersonSelectorOptions: PersonSelectorOptions = {
 }
 
 class PersonSelector extends ZUI {
-
+  persons: Person[]
+  options: PersonSelectorOptions
   constructor(options: PersonSelectorOptions = defaultPersonSelectorOptions) {
     super();
-    const opts = { ...defaultPersonSelectorOptions, ...options };
+    this.options = { ...defaultPersonSelectorOptions, ...options };
+
+    this.content = new DivUI(() => {
+      return [this.makeDropDown()];
+    });
+  }
+
+  makeDropDown(): ZUI {
     const personKeys = Person.allPersons();
-    const personList = Person.cGETm(personKeys) as Person[];
+    const personList = Person.cGETm(personKeys);
     const dropdown = new DropDownChoiceUI()
-      .getF(opts.getSelected)
-      .setF(this.handleSelect(opts));
+      .getF(this.options.getSelected)
+      .setF(this.handleSelect(this.options));
     const duplicateNames = {}
     personList.forEach((person: Person) => {
       if (person.getFullName() in duplicateNames) {
@@ -36,14 +44,14 @@ class PersonSelector extends ZUI {
         duplicateNames[person.getFullName()] = false;
       }
     });
-    if (opts.nullable) {
+    if (this.options.nullable) {
       dropdown.choice('', '-- Select a Person --');
     }
-    personList.forEach((person) => dropdown.choice(person._key, person.getDescription(duplicateNames[person.getFullName()])));
-    if (opts.allowAddNew) {
-      dropdown.choice('add-new-person', opts.addNewLabel);
+    personList.forEach((person: Person) => dropdown.choice(person._key, person.getDescription(duplicateNames[person.getFullName()])));
+    if (this.options.allowAddNew) {
+      dropdown.choice('add-new-person', this.options.addNewLabel);
     }
-    this.content = dropdown;
+    return dropdown;
   }
 
   handleSelect(opts: PersonSelectorOptions) {

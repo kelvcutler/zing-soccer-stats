@@ -1,10 +1,729 @@
-.team-list-item {
+.arrowBtn, .upArrowBtn, .upArrowBtn:disabled, .downArrowBtn, .downArrowBtn:disabled, .rightArrowBtn, .rightArrowBtn:disabled, .leftArrowBtn, .leftArrowBtn:disabled, .noArrowBtn {
+  background: none;
+  border: 0; }
+
+.upArrowBtn, .upArrowBtn:disabled {
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-bottom: 7px solid #5091e7;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  padding: 0px;
+  float: left;
+  position: relative; }
+
+.upArrowBtn:hover {
+  border-bottom: 7px solid #aac9f3;
+  cursor: pointer; }
+
+.upArrowBtn:disabled {
+  border-bottom-color: #c9c8c8; }
+
+.upArrowBtn:disabled:hover {
+  border-bottom: 7px solid #c9c8c8;
+  cursor: default; }
+
+.downArrowBtn, .downArrowBtn:disabled {
+  width: 0;
+  height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 7px solid #5091e7;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  padding: 0px;
+  float: left;
+  position: relative;
+  box-sizing: border-box; }
+
+.downArrowBtn:hover {
+  border-top: 7px solid #aac9f3;
+  cursor: pointer; }
+
+.downArrowBtn:disabled {
+  border-top-color: #c9c8c8; }
+
+.downArrowBtn:disabled:hover {
+  border-top: 7px solid #c9c8c8;
+  cursor: default; }
+
+/*
+  .rightArrowBtn, .rightArrowBtn:disabled {
+    width: 0;
+    height: 0;
+    border-top: 7.5px solid transparent;
+    border-bottom: 7.5px solid transparent;
+    border-left: 15px solid $color-primary;
+    margin-top: 6px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    float: left;
+    position: relative; 
+  }
+  
+  .rightArrowBtn:hover {
+    border-left: 15px solid lighten($color-primary,20%);
+    cursor: pointer; 
+  }
+  
+  .rightArrowBtn:disabled {
+    border-left-color: $color-disabled; 
+  }
+  
+  .rightArrowBtn:disabled:hover {
+    border-left: 15px solid $color-disabled;
+    cursor: default; 
+  }
+  */
+.rightArrowBtn, .rightArrowBtn:disabled {
+  width: 0;
+  height: 0;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  border-left: 7px solid #5091e7;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  box-sizing: border-box;
+  float: left;
+  position: relative; }
+
+.rightArrowBtn:hover {
+  border-left: 7px solid #aac9f3;
+  cursor: pointer; }
+
+.rightArrowBtn:disabled {
+  border-left-color: #c9c8c8; }
+
+.rightArrowBtn:disabled:hover {
+  border-left: 7px solid #c9c8c8;
+  cursor: default; }
+
+.leftArrowBtn, .leftArrowBtn:disabled {
+  width: 0;
+  height: 0;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  border-right: 7px solid #5091e7;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  box-sizing: border-box;
+  float: left;
+  position: relative; }
+
+.leftArrowBtn:hover {
+  border-right: 7px solid #aac9f3;
+  cursor: pointer; }
+
+.leftArrowBtn:disabled {
+  border-right-color: #c9c8c8; }
+
+.leftArrowBtn:disabled:hover {
+  border-right: 7px solid #c9c8c8;
+  cursor: default; }
+
+.hideArrow {
+  border-color: white; }
+
+.hideArrow:hover {
+  border-color: white; }
+
+.noArrowBtn {
+  width: 0;
+  height: 0;
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  border-right: 7px solid transparent;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  margin-right: 2px;
+  box-sizing: border-box; }
+
+.arrowBox {
+  width: 4.5px;
+  float: left;
+  position: relative; }
+
+.TextAlignLeft {
+  text-align: left; }
+
+.TextAlignCenter {
+  text-align: center; }
+
+.TextAlignRight {
+  text-align: right; }
+
+.InputUI {
+  font-size: 16px;
+  padding: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  float: left; }
+
+::placeholder {
+  color: #d2d2d2; }
+
+.TextUI {
+  display: block;
+  float: left;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  color: black; }
+
+.BreakUI {
+  display: block;
+  float: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0);
+  width: 100%;
+  min-width: 100%;
+  min-height: 5px; }
+
+.ButtonUI {
+  font-size: 11.2px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #5091e7;
+  color: white;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 2px;
+  border-radius: 3px;
+  border-style: none;
+  float: left; }
+  .ButtonUI:hover {
+    background-color: #2375e1;
+    cursor: pointer; }
+
+.ButtonUI-sec {
+  font-size: 11.2px;
+  font-family: "Montserrat", sans-serif;
+  background-color: #f8eccb;
+  color: black;
+  padding: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  border-style: none;
+  float: left; }
+  .ButtonUI-sec:hover {
+    background-color: #f2dc9e;
+    cursor: pointer; }
+
+.ButtonUI-disabled {
+  background-color: #c9c8c8; }
+  .ButtonUI-disabled:hover {
+    cursor: none; }
+
+.ChartUI {
+  background-color: white;
+  padding: 4px; }
+
+.DataTableUI-table {
+  border: 1px solid black; }
+
+.DataTableUI-table th {
+  background-color: lightgray; }
+
+.DataTableUI-table td {
+  background-color: white;
+  padding: 2px; }
+
+.IconButtonUI {
+  background-color: #f8eccb;
+  border: solid 2px #f8eccb;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  float: left;
+  margin-bottom: 2px;
+  margin-right: 2px; }
+
+.IconButtonUI:hover {
+  border: solid 2px black; }
+
+.IconButtonUI-selected {
+  background-color: white; }
+
+.IconButtonUI img {
+  width: 100%;
+  height: 100%; }
+
+.fullWidth {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 96.96%;
+  margin-left: 1.5%;
+  margin-right: 1.5%; }
+
+.DropDownChoiceUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  margin-bottom: 3px; }
+
+.Messages {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 63.64%;
+  margin-left: 18.16%;
+  margin-right: 1.5%;
+  font-size: 19.2px; }
+
+.MessageError {
+  padding: 5px;
+  padding-left: 20px;
+  background-color: yellow;
+  color: black; }
+
+.MessageInform {
+  padding: 5px;
+  padding-left: 20px;
+  background-color: lightgray;
+  color: black; }
+
+.Modal {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.39); }
+
+.Modal-show {
+  float: left;
+  position: relative;
+  width: 70%;
+  margin-left: 13%;
+  margin-top: 20%;
+  background-color: #f8eccb;
+  padding: 10px; }
+
+.Modal-content {
+  float: left;
+  position: relative;
+  width: 90%;
+  margin: 5%;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.493);
+  border: solid 1px #e6bb44;
+  padding: 10px; }
+
+.Modal-btn {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  border-radius: 4px; }
+
+.Modal-actions {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 83.3%;
+  margin-left: 8.33%;
+  margin-right: 0px; }
+
+.KeyListUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 99.96%;
+  margin-left: 0%;
+  margin-right: 0px; }
+
+.HideShowUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 99.96%;
+  margin-left: 0%;
+  margin-right: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%; }
+
+.HideShowUIHeaderBar {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 2px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  width: 91%;
+  float: left; }
+
+.HideShowUIContent {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 98.46%;
+  margin-left: 1.5%;
+  margin-right: 0px;
+  margin-top: 5px;
+  margin-bottom: 0px; }
+
+.ColorPickerUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px; }
+
+.SliderUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px; }
+
+.ProcessLogUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  max-height: 400px;
+  overflow: auto; }
+
+.TabUI-bar {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 99.96%;
+  margin-left: 0%;
+  margin-right: 0px;
+  padding-top: 8px; }
+
+.TabUI-btn {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  border: solid 1px #eccb71;
+  background-color: #f8eccb;
+  border-radius: 2px 10px 0px 0px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  padding: 4px;
+  padding-left: 20px;
+  padding-right: 20px; }
+  .TabUI-btn :hover {
+    border: solid 1px black; }
+
+.TabUI-selected {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  border-bottom: solid 1px white;
+  background-color: rgba(255, 255, 255, 0); }
+
+.TextEditUI-text {
+  white-space: pre;
+  padding: 5px; }
+
+.TextEditUI-line {
+  white-space: pre;
+  width: 96%;
+  outline: 0px solid transparent;
+  border: solid 2px white;
+  background-color: white;
+  border-left-width: 4px;
+  padding-left: 4px; }
+
+.TextEditUI-flr {
+  border-left-color: #5091e7; }
+
+.TextEditUI-fls {
+  background-color: #e6e6e6; }
+
+.TextEditUI-tld {
+  border-bottom-color: #5091e7; }
+
+.StyleCheckUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  height: 12px;
+  width: 12px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border: solid 1px gray;
+  background-color: white; }
+  .StyleCheckUI:hover {
+    border-width: 3px; }
+
+.StyleCheckUI-checked {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  height: 12px;
+  width: 12px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border: solid 1px black;
+  background-color: gray;
+  background-image: url("/icons/Check.PNG");
+  background-size: cover; }
+  .StyleCheckUI-checked:hover {
+    border-width: 3px; }
+
+.DoneIndicatorUI {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  height: 20px;
+  width: 20px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border: solid 1px gray;
+  background-color: white; }
+
+.DoneIndicatorUI-clickable {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  height: 20px;
+  width: 20px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border: solid 1px gray;
+  background-color: white; }
+  .DoneIndicatorUI-clickable:hover {
+    padding: 2px; }
+
+.DoneIndicatorUI-slider {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  margin-left: 0%;
+  margin-right: 0px;
+  height: 100%;
+  background-color: lightgray; }
+
+.htc, .htc-r, .htc-l {
+  padding: 5px;
+  color: black;
+  cursor: pointer;
+  background-color: lightgray;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  border: 1px solid #aaa;
+  margin-left: 0px;
+  margin-right: -2px;
+  margin-top: 10px;
+  display: inline-block;
+  height: 25px; }
+
+.htc-l {
+  border-radius: 3px 0 0 3px; }
+
+.htc-r {
+  border-radius: 0 3px 3px 0;
+  margin-right: 5px; }
+
+.htc:hover, .htc-l:hover, .htc-r:hover {
+  background: #eee; }
+
+.ImageDropHover {
+  background: #eee; }
+
+.ImageModal-frame {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 96.96%;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  border: solid black 2px; }
+
+.ImageModal-align {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 13.66%;
+  margin-left: 18.16%;
+  margin-right: 1.5%; }
+
+.ImageModal-widthl {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 6.83%;
+  margin-left: 9.83%;
+  margin-right: 0px;
+  text-align: right; }
+
+.ImageModal-width {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 6.83%;
+  margin-left: 0%;
+  margin-right: 1.5%; }
+
+.html-min-btn {
+  padding: 5px;
+  color: black;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  border: 1px solid #aaa;
+  margin-left: 0px;
+  margin-right: -2px;
+  margin-top: 10px;
+  display: inline-block;
+  height: 25px;
+  border-radius: 3px;
+  margin-left: 10px; }
+
+.html-min-btn:hover {
+  background: #eee; }
+
+.html-feedback-editor {
+  height: 200px;
+  background-color: white;
+  overflow: scroll; }
+
+.HTMLEditUI-tool {
+  float: left;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 1px;
+  width: 99.96%;
+  margin-left: 0%;
+  margin-right: 0px;
+  margin-bottom: 5px; }
+
+.HTMLEditUI-html {
+  overflow-y: scroll;
+  min-width: 400px;
+  min-height: 200px;
+  resize: both;
+  background-color: white;
+  padding: 10px;
+  border: solid 1px green; }
+
+.DragDropWrapperUI-hover {
+  border-left: 4px solid black; }
+
+.hidden {
+  display: none; }
+
+.TeamListItem {
   cursor: pointer;
   padding: 10px;
-  border-radius: 10px; }
+  border-radius: 10px;
+  height: 18px; }
+  .TeamListItem:hover {
+    background-color: #EEE;
+    transition: background-color 0.7s; }
 
-.team-list-item:hover {
-  background-color: #EEE;
-  transition: background-color 0.7s; }
+.ShadowedCard {
+  border-radius: 8px;
+  box-shadow: 3px 3px 5px 2px #CCC;
+  margin-bottom: 10px;
+  padding: 8px;
+  height: 80px;
+  position: relative; }
+  .ShadowedCard .Label {
+    float: left;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 1px;
+    width: 13.66%;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    font-weight: bold;
+    height: 35px; }
+  .ShadowedCard .Value {
+    float: left;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 1px;
+    width: 13.66%;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    height: 35px; }
+  .ShadowedCard .UpperRightActions {
+    position: absolute;
+    top: 10px;
+    right: 10px; }
+  .ShadowedCard .Row {
+    clear: both; }
 
 /*# sourceMappingURL=main.css.map */

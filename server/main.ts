@@ -10,8 +10,7 @@ let dataSource = new MongoDataSource(
   env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(),
   env.mongoPort(),
   env.mongoDB(),
-  false,
-  true
+  false
 );
 let rightsManager = new AllRightsManager(dataSource);
 dataSource.setRightsManager(rightsManager);
