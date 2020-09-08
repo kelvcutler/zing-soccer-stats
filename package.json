@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Sample application written in Zing framework",
   "main": "index.js",
-  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kelvcutler/zing-soccer-stats.git"
@@ -14,6 +13,11 @@
     "url": "https://github.com/kelvcutler/zing-soccer-stats/issues"
   },
   "homepage": "https://github.com/kelvcutler/zing-soccer-stats#readme",
+  "scripts": {
+    "build": "gulp",
+    "test": "test.js",
+    "coverage": "nyc npm run test"
+  },
   "devDependencies": {
     "@types/node": "^11.15.20",
     "gulp": "^3.9.1",
