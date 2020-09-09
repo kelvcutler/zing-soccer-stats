@@ -28,6 +28,7 @@
     "typescript": "^3.3.3333"
   },
   "dependencies": {
+    "aws-sdk": "^2.748.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.4",
     "crypto-js": "^3.1.9-1",
