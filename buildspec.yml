@@ -14,11 +14,11 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - find ./* -print0 > mag-bio-files
+      - ls > mag-bio-files
       - mkdir mag-bio
-      - cat mag-bio-files | xargs -0 -I {} mv {} mag-bio/
+      - cat mag-bio-files | xargs -0 -I {} mv -v {} mag-bio/
       - mkdir aaswZing
-      - mv $CODEBUILD_SRC_DIR_zing/* aaswZing/
+      - mv -v $CODEBUILD_SRC_DIR_zing/* aaswZing/
       - echo Compiling the Node.js code
       - cd mag-bio
       - npm run build
