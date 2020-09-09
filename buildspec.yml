@@ -14,7 +14,13 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - find ./* -print0 > mag-bio-files
+      - mkdir mag-bio
+      - cat mag-bio-files | xargs -0 -I {} mv {} mag-bio/
+      - mkdir aaswZing
+      - mv $CODEBUILD_SRC_DIR_zing/* aaswZing/
       - echo Compiling the Node.js code
+      - cd mag-bio
       - npm run build
   post_build:
     commands:
@@ -22,5 +28,5 @@ phases:
 # Include only the files required for your application to run.
 artifacts:
   files:
-    - server.*
-    - war/**/*
+    - mag-bio/server.*
+    - mag-bio/war/**/*
