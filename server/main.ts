@@ -1,5 +1,5 @@
 
-/// <reference path="../../01/Zing/data/serverRefs.ts"/>
+/// <reference path="../../01/data/serverRefs.ts"/>
 /// <reference path="../models/ZMake.ts"/>
 /// <reference path="../SoccerStatsEnv.ts"/>
 /// <reference path="../common/AllRightsManager.ts"/>

@@ -1,4 +1,4 @@
-/// <reference path="../../01/Zing/data/clientRefs.ts"/>
+/// <reference path="../../01/data/clientRefs.ts"/>
 /// <reference path="../models/ZMake.ts"/>
 /// <reference path="../common/AllRightsManager.ts"/>
 /// <reference path="pages/package.ts"/>

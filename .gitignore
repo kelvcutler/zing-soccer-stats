@@ -3,3 +3,4 @@ node_modules
 .vscode/launch.json
 server.*
 war
+war/main.css.map

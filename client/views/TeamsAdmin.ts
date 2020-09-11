@@ -1,5 +1,5 @@
 
-/// <reference path="../../../01/Zing/zui/refs.ts"/>
+/// <reference path="../../../01/zui/refs.ts"/>
 /// <reference path="../../models/Team.ts"/>
 
 class TeamsAdmin extends ZUI {
