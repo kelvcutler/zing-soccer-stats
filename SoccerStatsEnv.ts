@@ -1,4 +1,4 @@
-/// <reference path="../aaswZing/Zing/data/ZingEnv.ts"/>
+/// <reference path="../01/Zing/data/ZingEnv.ts"/>
 const aws = require('aws-sdk');
 
 class SoccerStatsEnv extends ZingEnv {

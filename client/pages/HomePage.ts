@@ -1,5 +1,5 @@
 
-/// <reference path="../../../aaswZing/Zing/zui/refs.ts"/>
+/// <reference path="../../../01/Zing/zui/refs.ts"/>
 /// <reference path="../views/TeamsAdmin.ts"/>
 /// <reference path="../views/PersonsAdmin.ts"/>
 

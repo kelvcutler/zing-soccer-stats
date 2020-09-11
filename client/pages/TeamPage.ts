@@ -1,6 +1,6 @@
 
-/// <reference path="../../../aaswZing/Zing/zui/PageManager.ts"/>
-/// <reference path="../../../aaswZing/Zing/zui/refs.ts"/>
+/// <reference path="../../../01/Zing/zui/PageManager.ts"/>
+/// <reference path="../../../01/Zing/zui/refs.ts"/>
 /// <reference path="../../models/Team.ts"/>
 /// <reference path="../views/PersonCard.ts"/>
 /// <reference path="../views/PersonSelector.ts"/>

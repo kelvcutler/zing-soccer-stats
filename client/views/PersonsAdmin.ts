@@ -1,5 +1,5 @@
 
-/// <reference path="../../../aaswZing/Zing/zui/refs.ts"/>
+/// <reference path="../../../01/Zing/zui/refs.ts"/>
 /// <reference path="../../models/Person.ts"/>
 
 class PersonsAdmin extends ZUI {

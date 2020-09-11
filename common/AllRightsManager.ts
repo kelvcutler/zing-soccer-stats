@@ -1,6 +1,6 @@
 
-/// <reference path="../../aaswZing/Zing/data/RightsManager.ts"/>
-/// <reference path="../../aaswZing/Zing/data/UserManager.ts"/>
+/// <reference path="../../01/Zing/data/RightsManager.ts"/>
+/// <reference path="../../01/Zing/data/UserManager.ts"/>
 
 class AllRightsManager extends RightsManager {
   constructor(dataSource: DataSource, userManager = new NoUserManager()) {
