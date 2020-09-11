@@ -13,9 +13,14 @@ phases:
       - npm install
   build:
     commands:
-      - echo Build started on `date`
+      - echo Build started on $CODEBUILD_START_TIME
+      - echo $CODEBUILD_SRC_DIR
       - ls $CODEBUILD_SRC_DIR_zing
       - ls $CODEBUILD_SRC_DIR_zing/data
+      - cd $CODEBUILD_SRC_DIR_zing
+      - npm install
+      - gulp
+      - cd $CODEBUILD_SRC_DIR
       - npm run build
   post_build:
     commands:
