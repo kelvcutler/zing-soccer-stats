@@ -16,7 +16,8 @@
   "scripts": {
     "build": "gulp",
     "test": "test.js",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc npm run test",
+    "start": "node server.js"
   },
   "devDependencies": {
     "@types/node": "^11.15.20",
