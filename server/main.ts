@@ -1,5 +1,5 @@
 
-/// <reference path="../../github.com/sparxteq/Zing/data/serverRefs.ts"/>
+/// <reference path="../../../github.com/sparxteq/Zing/data/serverRefs.ts"/>
 /// <reference path="../models/ZMake.ts"/>
 /// <reference path="../SoccerStatsEnv.ts"/>
 /// <reference path="../common/AllRightsManager.ts"/>

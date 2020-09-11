@@ -1,6 +1,6 @@
 
-/// <reference path="../../../github.com/sparxteq/Zing/zui/PageManager.ts"/>
-/// <reference path="../../../github.com/sparxteq/Zing/zui/refs.ts"/>
+/// <reference path="../../../../github.com/sparxteq/Zing/zui/PageManager.ts"/>
+/// <reference path="../../../../github.com/sparxteq/Zing/zui/refs.ts"/>
 /// <reference path="../../models/Team.ts"/>
 /// <reference path="../views/PersonCard.ts"/>
 /// <reference path="../views/PersonSelector.ts"/>

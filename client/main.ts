@@ -1,4 +1,4 @@
-/// <reference path="../../github.com/sparxteq/Zing/data/clientRefs.ts"/> 
+/// <reference path="../../../github.com/sparxteq/Zing/data/clientRefs.ts"/> 
 /// <reference path="../models/ZMake.ts"/>
 /// <reference path="../common/AllRightsManager.ts"/>
 /// <reference path="pages/package.ts"/>

@@ -1,5 +1,5 @@
 
-/// <reference path="../../../github.com/sparxteq/Zing/zui/refs.ts"/>
+/// <reference path="../../../../github.com/sparxteq/Zing/zui/refs.ts"/>
 /// <reference path="../../models/Person.ts"/>
 
 type PersonCardOptions = {

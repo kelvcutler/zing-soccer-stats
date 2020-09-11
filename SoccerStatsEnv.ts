@@ -1,4 +1,4 @@
-/// <reference path="../github.com/sparxteq/Zing/data/ZingEnv.ts"/>
+/// <reference path="../../github.com/sparxteq/Zing/data/ZingEnv.ts"/>
 const aws = require('aws-sdk');
 
 class SoccerStatsEnv extends ZingEnv {

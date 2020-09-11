@@ -1,6 +1,6 @@
 
-/// <reference path="../../github.com/sparxteq/Zing/data/RightsManager.ts"/>
-/// <reference path="../../github.com/sparxteq/Zing/data/UserManager.ts"/>
+/// <reference path="../../../github.com/sparxteq/Zing/data/RightsManager.ts"/>
+/// <reference path="../../../github.com/sparxteq/Zing/data/UserManager.ts"/>
 
 class AllRightsManager extends RightsManager {
   constructor(dataSource: DataSource, userManager = new NoUserManager()) {
