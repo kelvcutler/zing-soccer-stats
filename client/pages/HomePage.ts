@@ -1,5 +1,5 @@
 
-/// <reference path="../../../01/zui/refs.ts"/>
+/// <reference path="../../../github.com/sparxteq/Zing/zui/refs.ts"/>
 /// <reference path="../views/TeamsAdmin.ts"/>
 /// <reference path="../views/PersonsAdmin.ts"/>
 
