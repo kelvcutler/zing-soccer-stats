@@ -14,7 +14,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - find $CODEBUILD_SRC_DIR_zing/*
+      - find $CODEBUILD_SRC_DIR_zing/../*
       - pwd
       - echo "$CODEBUILD_SRC_DIR_zing"
       - echo $CODEBUILD_SRC_DIR_zing
