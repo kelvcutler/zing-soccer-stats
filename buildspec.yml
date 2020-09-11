@@ -14,7 +14,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - ls $CODEBUILD_SRC_DIR_zing/Zing/
+      - ls $CODEBUILD_SRC_DIR_zing
+      - ls $CODEBUILD_SRC_DIR_zing/Zing
       - ls $CODEBUILD_SRC_DIR_zing/Zing/data
       - npm run build
   post_build:
