@@ -14,13 +14,12 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - ls $CODEBUILD_SRC_DIR_zing/..
-      - ls ./
+      - npm run build
   post_build:
     commands:
       - echo Build completed on `date`
 # Include only the files required for your application to run.
 artifacts:
   files:
-    - mag-bio/server.*
-    - mag-bio/war/**/*
+    - server.*
+    - war/**/*
