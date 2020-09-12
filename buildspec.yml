@@ -25,6 +25,7 @@ phases:
 # Include only the files required for your application to run.
 artifacts:
   files:
+    - package.json
     - server.*
     - war/**/*
     - node_modules/**/*
