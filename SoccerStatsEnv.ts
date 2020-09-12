@@ -7,12 +7,16 @@ class SoccerStatsEnv extends ZingEnv {
 
   constructor() {
     super();
+    console.log('SoccerStatsEnv: constructor');
     if (process.env.AWS_REGION && process.env.AWS_DB_CRED_SECRET_ID) {
+      console.log(`SoccerStatsEnv: region=${process.env.AWS_REGION}; cred_secred_id=${process.env.AWS_DB_CRED_SECRET_ID}`);
       let client = new aws.SecretsManager({
         region: process.env.AWS_REGION
       });
       this.readyPromise = new Promise((resolve, reject) => {
+        console.log(`SoccerStatsEnv: new promise start`);
         client.getSecretValue({ SecretId: process.env.AWS_DB_CRED_SECRET_ID }, function (err, data) {
+          console.log(`SoccerStatsEnv: getSecretValue err=${err}`);
           if (err) {
             reject(err);
           } else {
@@ -22,11 +26,13 @@ class SoccerStatsEnv extends ZingEnv {
               let buff = new Buffer(data.SecretBinary, 'base64');
               this.dbCredentials = buff.toString('ascii');
             }
+            console.log(`SoccerStatsEnv: getSecretValue dbCredentials=${this.dbCredentials}`);
             resolve(true);
           }
         });
       });
     } else {
+      console.log(`SoccerStatsEnv: mongo_db_creds=${process.env.MONGO_DB_CREDS}`);
       this.dbCredentials = process.env.MONGO_DB_CREDS;
       this.readyPromise = Promise.resolve(true);
     }
