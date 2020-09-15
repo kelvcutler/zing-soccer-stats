@@ -63,6 +63,7 @@ class SoccerStatsEnv extends ZingEnv {
   serverPort() {
     return parseInt(process.env.PORT || "4000");
   }
+  mongoConnectionString(): string { return process.env.MONGO_DB_CONNECTION_STRING; }
   mongoDB(): string { return process.env.MONGO_DB_NAME; }
   mongoCredentials(): string { return this.dbCredentials; }
   mongoHost(): string { return process.env.MONGO_DB_HOST; }

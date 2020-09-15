@@ -8,19 +8,17 @@ require("dotenv").config();
 let env = new SoccerStatsEnv();
 
 env.readyPromise.then(() => {
-  const fetch = require('http');
-  https.get('https://www.google.com', (data) => {
-    console.log('data.status', data.statusCode);
-  }).on('error', (e) => {
-    console.log(`Got error: ${e.message}`);
-    console.error(`Got error: ${e.message}`);
-  });
-  let dataSource = new MongoDataSource(
-    env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(),
-    env.mongoPort(),
-    env.mongoDB(),
-    false
-  );
+  let dataSource;
+  if (env.mongoConnectionString()) {
+    dataSource = MongoDataSource.fromConnectionString(env.mongoConnectionString(), env.mongoDB());
+  } else {
+    dataSource = new MongoDataSource(
+      env.mongoCredentials() + (env.mongoCredentials() ? "@" : "") + env.mongoHost(),
+      env.mongoPort(),
+      env.mongoDB(),
+      false
+    );
+  }
   let rightsManager = new AllRightsManager(dataSource);
   dataSource.setRightsManager(rightsManager);
 
