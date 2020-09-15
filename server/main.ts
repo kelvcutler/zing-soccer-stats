@@ -9,7 +9,7 @@ let env = new SoccerStatsEnv();
 
 env.readyPromise.then(() => {
   const fetch = require('http');
-  https.get('https://www.googlegooz.com', (data) => {
+  https.get('https://www.google.com', (data) => {
     console.log('data.status', data.statusCode);
   }).on('error', (e) => {
     console.log(`Got error: ${e.message}`);
